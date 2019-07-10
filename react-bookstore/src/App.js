@@ -12,6 +12,14 @@ class App extends React.Component {
     filter: 'title'
   }
 
+  filterBy = (str) => {
+    this.setState(() => {
+      return {
+        filter: str
+      }
+    })
+  }
+
   search = (string) => {
     if (this.state.filter === 'title') {
     this.setState(() => {
@@ -63,7 +71,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <CustSearchBar onChange={this.search} />
+          <CustSearchBar onChange={this.search} onfilt={this.filterBy} />
         </header>
         <div className='body'>
         <CustBookContainer books={this.state.filtered.length > 0 ? this.state.filtered : this.state.books} onClick={this.handleAddClick} />

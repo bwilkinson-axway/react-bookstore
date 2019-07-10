@@ -24,8 +24,8 @@ class CustSearchBar extends React.Component {
     <img src='search.png' height='30px' alt='' />
     </span>
     <span className='butts'>
-    <button><h5>Filter By Title</h5></button>
-    <button><h5>Filter By Author</h5></button>
+    <button onClick={() => this.props.onfilt('title')} ><h5>Filter By Title</h5></button>
+    <button onClick={() => this.props.onfilt('author')} ><h5>Filter By Author</h5></button>
     </span>
     </span>
     </div>

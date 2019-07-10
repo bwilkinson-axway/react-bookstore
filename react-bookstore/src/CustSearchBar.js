@@ -1,12 +1,26 @@
 import React from 'react';
 
-function CustSearchBar() {
+class CustSearchBar extends React.Component {
+  state = {
+    searchie: ''
+  }
+
+  handleChange = e => {
+    this.setState({
+      searchie: e.target.value
+    })
+    setTimeout(() => {
+      this.props.onChange(this.state.searchie)
+    }, 20)
+  }
+
+  render () {
   return (
     <div className='header'>
     <h1 className='icon'>localBOOGS</h1>
     <span className='searchnbutt'>
     <span className='searchie'>
-    <input name='searchField' id='searchField' type='search' />
+    <input onChange={this.handleChange} value={this.state.searchie} name='searchField' id='searchField' type='search' />
     <img src='search.png' height='30px' alt='' />
     </span>
     <span className='butts'>
@@ -15,7 +29,9 @@ function CustSearchBar() {
     </span>
     </span>
     </div>
-  );
+  )};
 }
+
+
 
 export default CustSearchBar;

@@ -6,12 +6,45 @@ import ShoppingCart from './ShoppingCart';
 
 class App extends React.Component {
   state = {
-    books: []
+    books: [],
+    cart: [],
+    filtered: [],
+    filter: 'title'
   }
 
-  // const handleAddClick = () => {
-  //   this.state.books.inCart = true
-  // }
+  search = (string) => {
+    if (this.state.filter === 'title') {
+    this.setState(() => {
+      return {
+        filtered: this.state.books.filter(book => {
+          let loud = book.title.toUpperCase()
+          let loudString = string.toUpperCase()
+          return loud.includes(loudString)
+        })
+      }
+    })
+  } else {
+    this.setState(() => {
+      return {
+        filtered: this.state.books.filter(book => {
+          let loud = book.author.toUpperCase()
+          let loudString = string.toUpperCase()
+          return loud.includes(loudString)
+        })
+      }
+    })
+  }
+  }
+
+  handleAddClick = (id) => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        books: prevState.books.map(book => book.id === id ? {...book, inCart: true} : book),
+        cart: prevState.cart.concat(prevState.books.find(book => book.id === id && book))
+      }
+    })
+  }
 
   componentDidMount = async () => {
       try {
@@ -30,11 +63,11 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <CustSearchBar />
+          <CustSearchBar onChange={this.search} />
         </header>
         <div className='body'>
-        <CustBookContainer books={this.state.books} onClick={this.handleAddClick} />
-        <ShoppingCart books={this.state.books} />
+        <CustBookContainer books={this.state.filtered.length > 0 ? this.state.filtered : this.state.books} onClick={this.handleAddClick} />
+        <ShoppingCart books={this.state.cart} total={this.state.total} />
         </div>
       </div>
     );
